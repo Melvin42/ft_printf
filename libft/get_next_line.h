@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_struct.h                                 :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melperri <melperri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 14:09:27 by melperri          #+#    #+#             */
-/*   Updated: 2021/01/27 20:06:35 by melperri         ###   ########.fr       */
+/*   Created: 2020/12/02 18:42:26 by melperri          #+#    #+#             */
+/*   Updated: 2021/02/01 11:43:00 by melperri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_STRUCT_H
-# define FT_PRINTF_STRUCT_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# define BUFFER_SIZE 32
 
-typedef struct	s_flags
+# include "libft.h"
+# include <fcntl.h>
+
+typedef struct	s_gnl
 {
-	int				moins;
-	int				zero;
-	unsigned short	width;
-	int				point;
-	int				preci;
-	int				star;
-	int				len;
-	int				ret;
-	int				l;
-	int				ll;
-	int				h;
-	int				hh;
-	int				space;
-	int				hash;
-	int				plus;
-}				t_flags;
+	char	buf[BUFFER_SIZE + 1];
+	int		ret;
+	char	*tmp;
+	int		i;
+	char	*tofree;
+}				t_gnl;
+
+char			*cpy_line(char *tmp);
+int				is_line(char *tmp);
+int				read_file(t_gnl *gnl, int fd);
+int				get_next_line(int fd, char **line);
 
 #endif

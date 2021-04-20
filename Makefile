@@ -1,5 +1,5 @@
 SRCS	= ft_printf.c \
-		  ft_flag_star.c \
+		  ft_flags.c \
 		  ft_pars_flags.c \
 		  ft_printf_convert.c \
 		  ft_printf_convert2.c \
@@ -9,25 +9,19 @@ SRCS	= ft_printf.c \
 		  ft_printf_null_addr.c \
 		  ft_printf_int_pos.c \
 		  ft_printf_int_neg.c \
-		  ft_printf_int_neg2.c \
-		  ./printlib/ft_strlen.c \
-		  ./printlib/ft_isdigit.c \
-		  ./printlib/ft_isspace.c \
-		  ./printlib/ft_putchar_fd.c \
-		  ./printlib/ft_putstr_fd.c \
-		  ./printlib/ft_putnbr_fd.c \
-		  ./printlib/ft_atoi.c \
-		  ./printlib/ft_atoi_base.c \
-		  ./printlib/ft_itoa.c \
-		  ./printlib/ft_utoa.c \
-		  ./printlib/ft_itoa_base.c \
-		  ./printlib/ft_utoa_base.c \
-		  ./printlib/ft_ultoa_base.c \
-		  ./printlib/ft_strdup.c \
-		  ./printlib/ft_strcpy.c \
-		  ./printlib/ft_substr.c \
-
-SRCS_BONUS = \
+		  ft_printf_int_plus.c \
+		  ft_printf_hexmin.c \
+		  ft_printf_hexmin2.c \
+		  ft_printf_hexmaj.c \
+		  ft_printf_hexmaj2.c \
+		  ft_printf_hex_long.c \
+		  ft_printf_hex_ll.c \
+		  ft_printf_hex_hh.c \
+		  ft_printf_modifier.c \
+		  ft_printf_short.c \
+		  ft_printf_long.c \
+		  ft_printf_ll.c \
+		  ft_printf_hh.c \
 
 CC = clang
 
@@ -37,28 +31,31 @@ RM = rm -f
 
 NAME = libftprintf.a
 
-AR = ar rc
+AR = ar rcs
+
+LIB = libft/libft.a
 
 OBJS = $(SRCS:.c=.o)
-
-OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
-all: ${NAME}
+bonus: all
 
-$(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
+all: $(NAME)
 
-bonus: $(OBJS) $(OBJS_BONUS)
-	ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
+$(NAME): $(LIB) $(OBJS)
+	$(AR) $(NAME) $(OBJS) ./libft/*.o
+
+$(LIB):
+	make -C ./libft/
 
 clean:
-	$(RM) $(OBJS) $(OBJS_BONUS)
+	$(RM) $(OBJS)
+	make clean -C ./libft/
 
 fclean:	clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(LIB)
 
 re:	fclean all
 

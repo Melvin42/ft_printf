@@ -6,7 +6,7 @@
 /*   By: melperri <melperri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 17:42:57 by melperri          #+#    #+#             */
-/*   Updated: 2021/01/25 11:44:35 by melperri         ###   ########.fr       */
+/*   Updated: 2021/02/01 11:46:41 by melperri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,13 @@ static void	init_struct(t_flags *flags)
 	flags->preci = FALSE;
 	flags->star = FALSE;
 	flags->len = FALSE;
-	flags->ret = FALSE;
+	flags->l = FALSE;
+	flags->ll = FALSE;
+	flags->h = FALSE;
+	flags->hh = FALSE;
+	flags->space = FALSE;
+	flags->hash = FALSE;
+	flags->plus = FALSE;
 }
 
 static void	pars_string(const char **full, t_flags *flags, va_list ap)
@@ -60,6 +66,7 @@ static void	pars_string(const char **full, t_flags *flags, va_list ap)
 	{
 		if (**full == '%')
 		{
+			init_struct(flags);
 			(*full)++;
 			fill_struct_part1(flags, full, ap);
 			break ;
@@ -67,9 +74,16 @@ static void	pars_string(const char **full, t_flags *flags, va_list ap)
 		flags->ret += write(1, *full, 1);
 		(*full)++;
 	}
+	if (is_modifier(flags, **full))
+		(*full)++;
+	if (is_modifier2(flags, **full))
+		(*full)++;
 	if (is_converter(**full))
 	{
-		print_conv(full, flags, ap);
+		if (flags->l || flags->h)
+			print_conv_modif(full, flags, ap);
+		else
+			print_conv(full, flags, ap);
 		(*full)++;
 	}
 }
@@ -81,6 +95,7 @@ int			ft_printf(const char *full, ...)
 
 	va_start(ap, full);
 	init_struct(&flags);
+	flags.ret = FALSE;
 	while (*full)
 	{
 		pars_string(&full, &flags, ap);

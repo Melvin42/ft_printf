@@ -1,39 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checkbase.c                                        :+:      :+:    :+:   */
+/*   ft_lltoa.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melperri <melperri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/11 08:48:09 by melperri          #+#    #+#             */
-/*   Updated: 2021/01/11 08:49:08 by melperri         ###   ########.fr       */
+/*   Created: 2021/01/26 14:00:18 by melperri          #+#    #+#             */
+/*   Updated: 2021/01/26 14:08:29 by melperri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		checkbase(char *base)
+char	*ft_lltoa(long long n)
 {
-	int	i;
-	int	j;
+	char		*s;
+	int64_t		nb;
+	int			len;
 
-	i = 0;
-	if (ft_strlen(base) <= 1)
-		return (0);
-	while (base[i])
+	nb = n;
+	nb = (n < 0) ? nb * -1 : nb;
+	len = (n < 0) ? 2 : 1;
+	while (nb > 9)
 	{
-		if ((base[i] >= 9 && base[i] <= 13) || base[i] == ' ')
-			return (0);
-		if (base[i] == '+' || base[i] == '-')
-			return (0);
-		j = i + 1;
-		while (base[j])
-		{
-			if (base[i] == base[j])
-				return (0);
-			j++;
-		}
-		i++;
+		nb = nb / 10;
+		len++;
 	}
-	return (1);
+	if (!(s = malloc(sizeof(char) * len + 1)))
+		return (NULL);
+	s[len] = '\0';
+	nb = n;
+	nb = (n < 0) ? nb * -1 : nb;
+	while (len - 1 >= 0)
+	{
+		s[len - 1] = nb % 10 + 48;
+		nb = nb / 10;
+		len--;
+	}
+	s[0] = (n < 0) ? '-' : s[0];
+	return (s);
 }

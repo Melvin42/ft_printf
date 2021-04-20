@@ -6,13 +6,14 @@
 /*   By: melperri <melperri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 15:07:12 by melperri          #+#    #+#             */
-/*   Updated: 2021/01/25 13:48:34 by melperri         ###   ########.fr       */
+/*   Updated: 2021/02/01 11:43:44 by melperri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "get_next_line.h"
 # include <stdio.h>
 # include <limits.h>
 # include <ctype.h>
@@ -73,6 +74,11 @@ char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s1, char const *set);
 char			**ft_split(char const *str, char c);
 char			*ft_itoa(int n);
+char			*ft_ltoa(long n);
+char			*ft_lltoa(long long n);
+char			*ft_utoa(unsigned int n);
+char			*ft_ultoa(unsigned long n);
+char			*ft_ulltoa(unsigned long long n);
 char			*ft_strmapi(char const *s, char(*f)(unsigned int, char));
 void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(char *s, int fd);
@@ -94,7 +100,9 @@ int				checkbase(char *base);
 char			*ft_itoa_base(int nb, char *base);
 char			*ft_utoa_base(unsigned int nb, char *base);
 char			*ft_ultoa_base(unsigned long int nb, char *base);
+char			*ft_ulltoa_base(unsigned long long nb, char *base);
 char			*ft_convert_base(char *nbr, char *base_from, char *base_to);
 int				ft_atoi_base(char *str, char *base);
+int				get_next_line(int fd, char **line);
 
 #endif

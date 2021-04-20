@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_convert2.c                               :+:      :+:    :+:   */
+/*   ft_printf_ll.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melperri <melperri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/20 08:56:59 by melperri          #+#    #+#             */
-/*   Updated: 2021/01/27 20:10:55 by melperri         ###   ########.fr       */
+/*   Created: 2021/01/26 14:18:10 by melperri          #+#    #+#             */
+/*   Updated: 2021/01/27 19:42:16 by melperri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_print_int3(t_flags *flags, int d)
+static void	ft_print_ll3(t_flags *flags, long long d)
 {
 	int	i;
 
@@ -35,10 +35,10 @@ static void	ft_print_int3(t_flags *flags, int d)
 	}
 }
 
-static void	ft_print_int2(t_flags *flags, char *s, int d)
+static void	ft_print_ll2(t_flags *flags, char *s, long long d)
 {
 	if (d == 0 && flags->width && flags->point && !flags->preci)
-		ft_print_int3(flags, d);
+		ft_print_ll3(flags, d);
 	else if (d == 0 && !flags->width && flags->point && !flags->preci)
 	{
 		if (flags->plus)
@@ -54,18 +54,20 @@ static void	ft_print_int2(t_flags *flags, char *s, int d)
 		ft_flags_int(flags, s);
 }
 
-void		ft_print_int(va_list ap, t_flags *flags)
+void		ft_print_long_long(va_list ap, t_flags *flags)
 {
-	int		d;
-	char	*s;
+	long long	d;
+	int			i;
+	char		*s;
 
-	d = va_arg(ap, int);
-	s = ft_itoa(d);
+	i = -1;
+	d = va_arg(ap, long long);
+	s = ft_lltoa(d);
 	flags->len = (int)ft_strlen(s);
 	if (flags->space && flags->width && d >= 0)
 		flags->width--;
 	if (is_flag_on(flags))
-		ft_print_int2(flags, s, d);
+		ft_print_ll2(flags, s, d);
 	else
 	{
 		ft_flag_space(flags, d);
@@ -77,14 +79,14 @@ void		ft_print_int(va_list ap, t_flags *flags)
 	s = NULL;
 }
 
-void		ft_print_u(va_list ap, t_flags *flags)
+void		ft_print_ull(va_list ap, t_flags *flags)
 {
-	unsigned int	u;
-	int				i;
-	char			*s;
+	unsigned long long	u;
+	int					i;
+	char				*s;
 
-	u = va_arg(ap, unsigned int);
-	s = ft_utoa(u);
+	u = va_arg(ap, unsigned long long);
+	s = ft_ulltoa(u);
 	flags->len = (int)ft_strlen(s);
 	if (is_flag_on(flags))
 	{

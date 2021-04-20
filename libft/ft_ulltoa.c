@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_struct.h                                 :+:      :+:    :+:   */
+/*   ft_ulltoa.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melperri <melperri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 14:09:27 by melperri          #+#    #+#             */
-/*   Updated: 2021/01/27 20:06:35 by melperri         ###   ########.fr       */
+/*   Created: 2021/01/26 14:04:43 by melperri          #+#    #+#             */
+/*   Updated: 2021/01/27 20:07:39 by melperri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_STRUCT_H
-# define FT_PRINTF_STRUCT_H
+#include "libft.h"
 
-typedef struct	s_flags
+char	*ft_ulltoa(unsigned long long n)
 {
-	int				moins;
-	int				zero;
-	unsigned short	width;
-	int				point;
-	int				preci;
-	int				star;
-	int				len;
-	int				ret;
-	int				l;
-	int				ll;
-	int				h;
-	int				hh;
-	int				space;
-	int				hash;
-	int				plus;
-}				t_flags;
+	char				*s;
+	u_int64_t			nb;
+	int					len;
 
-#endif
+	nb = n;
+	len = 1;
+	while (nb > 9)
+	{
+		nb = nb / 10;
+		len++;
+	}
+	if (!(s = malloc(sizeof(char) * len + 1)))
+		return (NULL);
+	s[len] = '\0';
+	nb = n;
+	while (len - 1 >= 0)
+	{
+		s[len - 1] = nb % 10 + 48;
+		nb = nb / 10;
+		len--;
+	}
+	return (s);
+}

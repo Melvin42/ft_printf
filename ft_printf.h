@@ -6,7 +6,7 @@
 /*   By: melperri <melperri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 17:37:49 by melperri          #+#    #+#             */
-/*   Updated: 2021/01/25 12:21:11 by melperri         ###   ########.fr       */
+/*   Updated: 2021/01/27 20:09:18 by melperri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,8 @@
 # define BASEHEXMAJ "0123456789ABCDEF"
 
 # include "ft_printf_struct.h"
-# include <unistd.h>
-# include <limits.h>
+# include "libft/libft.h"
 # include <stdarg.h>
-# include <stdlib.h>
-# include <stddef.h>
 
 /*
 ******** PRINTF ********
@@ -53,6 +50,7 @@ void	ft_flags_addr(t_flags *flags, char *s);
 int		ft_flag_star_width(t_flags *flags, va_list ap);
 int		ft_flag_star_preci(t_flags *flags, va_list ap);
 void	fill_struct_part1(t_flags *flags, const char **full, va_list ap);
+void	ft_flag_space(t_flags *flags, int d);
 
 /*
 ******** STRING ********
@@ -69,40 +67,42 @@ void	ft_flags_addr(t_flags *flags, char *s);
 void	null_addr(t_flags *flags);
 
 /*
-******** INT POS ********
+******** INT ********
 */
 
 void	ft_flags_int(t_flags *flags, char *s);
-
-/*
-******** INT NEG ********
-*/
-
 void	ft_flags_int_neg(t_flags *flags, char *s);
-void	no_flag_zero_int_neg(t_flags *flags, char *s);
+void	ft_flags_int_plus(t_flags *flags, char *s);
+void	ft_flags_hexmin(t_flags *flags, char *s);
+void	ft_flags_hexmaj(t_flags *flags, char *s);
 
 /*
-******** LIBFT ********
+******* BONUS *********
 */
 
-int		ft_atoi_base(char *str, char *base);
-char	*ft_itoa_base(int n, char *base);
-char	*ft_utoa_base(unsigned int nb, char *base);
-char	*ft_ultoa_base(unsigned long nb, char *base);
-size_t	ft_strlen(const char *str);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
-void	ft_putchar_fd(char c, int fd);
-int		findchar(char c, char *base);
-int		stopatoi(char c, char *base);
-int		checkbase(char *base);
-int		ft_isspace(int c);
-int		ft_isdigit(int c);
-int		ft_atoi(const char *nptr);
-char	*ft_itoa(int n);
-char	*ft_utoa(unsigned int n);
-char	*ft_strdup(const char *src);
-char	*ft_strcpy(char *dest, const char *src);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+int		is_modifier(t_flags *flags, char c);
+int		is_modifier2(t_flags *flags, char c);
+void	print_conv_modif(const char **full, t_flags *flags, va_list ap);
+void	print_conv2_modif(const char **full, t_flags *flags, va_list ap);
+
+void	ft_print_long(va_list ap, t_flags *flags);
+void	ft_print_long_long(va_list ap, t_flags *flags);
+void	ft_print_ul(va_list ap, t_flags *flags);
+void	ft_print_ull(va_list ap, t_flags *flags);
+void	ft_print_us(va_list ap, t_flags *flags);
+void	ft_print_signed_char(va_list ap, t_flags *flags);
+void	ft_print_hhu(va_list ap, t_flags *flags);
+
+void	ft_print_hexmin_ul(va_list ap, t_flags *flags);
+void	ft_print_hexmaj_ul(va_list ap, t_flags *flags);
+void	ft_print_hexmin_ull(va_list ap, t_flags *flags);
+void	ft_print_hexmaj_ull(va_list ap, t_flags *flags);
+void	ft_print_hexmin_us(va_list ap, t_flags *flags);
+void	ft_print_hexmaj_us(va_list ap, t_flags *flags);
+void	ft_print_hexmin_hh(va_list ap, t_flags *flags);
+void	ft_print_hexmaj_hh(va_list ap, t_flags *flags);
+int		is_bonus_flags(t_flags *flags, char c);
+void	ft_nopreci_hexmaj2(t_flags *flags, char *s, int i);
+void	ft_nopreci_hexmin2(t_flags *flags, char *s, int i);
 
 #endif

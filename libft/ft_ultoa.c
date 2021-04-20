@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_flag_star.c                                     :+:      :+:    :+:   */
+/*   ft_ultoa.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melperri <melperri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/25 11:46:30 by melperri          #+#    #+#             */
-/*   Updated: 2021/01/25 12:26:36 by melperri         ###   ########.fr       */
+/*   Created: 2021/01/25 17:04:04 by melperri          #+#    #+#             */
+/*   Updated: 2021/01/25 17:06:34 by melperri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_flag_star_width(t_flags *flags, va_list ap)
+char	*ft_ultoa(unsigned long n)
 {
-	int	star;
+	char			*s;
+	unsigned long	nb;
+	int				len;
 
-	star = va_arg(ap, int);
-	if (star < 0)
+	nb = n;
+	len = 1;
+	while (nb > 9)
 	{
-		flags->moins = TRUE;
-		star *= -1;
+		nb = nb / 10;
+		len++;
 	}
-	return (star);
-}
-
-int	ft_flag_star_preci(t_flags *flags, va_list ap)
-{
-	int	star;
-
-	star = va_arg(ap, int);
-	if (star < 0)
+	if (!(s = malloc(sizeof(char) * len + 1)))
+		return (NULL);
+	s[len] = '\0';
+	nb = n;
+	while (len - 1 >= 0)
 	{
-		flags->point = FALSE;
-		return (FALSE);
+		s[len - 1] = nb % 10 + 48;
+		nb = nb / 10;
+		len--;
 	}
-	else
-		return (star);
+	return (s);
 }

@@ -43,6 +43,11 @@ SRCS	= ft_isblank.c \
 		  ft_strtrim.c \
 		  ft_split.c \
 		  ft_itoa.c \
+		  ft_ltoa.c \
+		  ft_lltoa.c \
+		  ft_utoa.c \
+		  ft_ultoa.c \
+		  ft_ulltoa.c \
 		  ft_strmapi.c \
 		  ft_putchar_fd.c \
 		  ft_putstr_fd.c \
@@ -55,18 +60,18 @@ SRCS	= ft_isblank.c \
 		  ft_atoi_base.c \
 		  ft_itoa_base.c \
 		  ft_utoa_base.c \
-		  ft_utoa_base.c \
 		  ft_ultoa_base.c \
-
-SRCS_BONUS = ft_lstnew.c \
-		   ft_lstadd_front.c \
-		   ft_lstsize.c \
-		   ft_lstlast.c \
-		   ft_lstclear.c \
-		   ft_lstiter.c \
-		   ft_lstadd_back.c \
-		   ft_lstdelone.c \
-		   ft_lstmap.c
+		  ft_ulltoa_base.c \
+		  get_next_line.c \
+		  ft_lstnew.c \
+		  ft_lstadd_front.c \
+		  ft_lstsize.c \
+		  ft_lstlast.c \
+		  ft_lstclear.c \
+		  ft_lstiter.c \
+		  ft_lstadd_back.c \
+		  ft_lstdelone.c \
+		  ft_lstmap.c \
 
 CC = clang
 
@@ -80,8 +85,6 @@ AR = ar rc
 
 OBJS = $(SRCS:.c=.o)
 
-OBJS_BONUS = $(SRCS_BONUS:.c=.o)
-
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) 
 
@@ -90,15 +93,12 @@ all: ${NAME}
 $(NAME): $(OBJS)
 	$(AR) $(NAME) $(OBJS)
 
-bonus: $(OBJS) $(OBJS_BONUS)
-	ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
- 
 clean:
-	$(RM) $(OBJS) $(OBJS_BONUS)
+	$(RM) $(OBJS)
 
 fclean:	clean
 	$(RM) $(NAME)
 
 re:	fclean all
 
-.PHONY: .c.o all clean fclean re bonus
+.PHONY: .c.o all clean fclean re

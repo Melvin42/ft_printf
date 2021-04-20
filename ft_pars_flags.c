@@ -6,7 +6,7 @@
 /*   By: melperri <melperri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 11:43:40 by melperri          #+#    #+#             */
-/*   Updated: 2021/01/25 12:08:15 by melperri         ###   ########.fr       */
+/*   Updated: 2021/01/27 18:55:26 by melperri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,24 @@ int			is_flag_on(t_flags *flags)
 		return (FALSE);
 }
 
-static void	fill_struct_part2(t_flags *flags, const char **full, va_list ap)
+int			is_bonus_flags(t_flags *flags, char c)
 {
-	while (ft_isdigit(**full))
-		(*full)++;
-	if (**full == '.')
-	{
-		flags->point = TRUE;
-		(*full)++;
-	}
-	if (flags->point)
-		if (ft_isdigit(**full))
-			flags->preci = ft_atoi(&(**full));
+	if (c == ' ')
+		flags->space = TRUE;
+	else if (c == '#')
+		flags->hash = TRUE;
+	else if (c == '+')
+		flags->plus = TRUE;
+	if (flags->space && flags->plus)
+		flags->space = FALSE;
+	if (flags->hash || flags->space || flags->plus)
+		return (TRUE);
+	else
+		return (FALSE);
+}
+
+static void	fill_struct_part3(t_flags *flags, const char **full, va_list ap)
+{
 	while (ft_isdigit(**full))
 		(*full)++;
 	if (!flags->preci)
@@ -52,12 +58,37 @@ static void	fill_struct_part2(t_flags *flags, const char **full, va_list ap)
 	}
 }
 
+static void	fill_struct_part2(t_flags *flags, const char **full, va_list ap)
+{
+	if (flags->star && !flags->width)
+	{
+		flags->width = ft_flag_star_width(flags, ap);
+		flags->star = FALSE;
+	}
+	while (ft_isdigit(**full))
+		(*full)++;
+	if (**full == '.')
+	{
+		flags->point = TRUE;
+		(*full)++;
+	}
+	if (flags->point)
+		if (ft_isdigit(**full))
+			flags->preci = ft_atoi(&(**full));
+	fill_struct_part3(flags, full, ap);
+}
+
 void		fill_struct_part1(t_flags *flags, const char **full, va_list ap)
 {
-	while (**full == '-')
+	while (**full == '-' || **full == '#' || **full == ' ' || **full == '+')
 	{
-		flags->moins = TRUE;
-		(*full)++;
+		if (is_bonus_flags(flags, **full))
+			(*full)++;
+		if (**full == '-')
+		{
+			flags->moins = TRUE;
+			(*full)++;
+		}
 	}
 	while (**full == '0')
 	{
@@ -71,10 +102,5 @@ void		fill_struct_part1(t_flags *flags, const char **full, va_list ap)
 	}
 	if (ft_isdigit(**full))
 		flags->width = ft_atoi(&(**full));
-	if (flags->star && !flags->width)
-	{
-		flags->width = ft_flag_star_width(flags, ap);
-		flags->star = FALSE;
-	}
 	fill_struct_part2(flags, full, ap);
 }
